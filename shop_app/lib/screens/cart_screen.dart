@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/providers/cart.dart' show Cart ;
-import 'package:shop_app/widgets/cart_item.dart'  ;
+import 'package:shop_app/providers/cart.dart' show Cart;
+import 'package:shop_app/providers/orders.dart';
+import 'package:shop_app/widgets/cart_item.dart';
 
 class CartScreen extends StatelessWidget {
   static const roueName = '/cart';
@@ -38,7 +39,7 @@ class CartScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Chip(
                       label: Text(
-                        '\$${cart.totalAmount}',
+                        '\$${cart.totalAmount.toStringAsFixed(2)}',
                         style: const TextStyle(
                           color: Colors.white,
                         ),
@@ -47,9 +48,17 @@ class CartScreen extends StatelessWidget {
                     ),
                   ),
                   OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Provider.of<Orders>(context, listen: false).addOrder(
+                        cart.items.values.toList(),
+                        cart.totalAmount,
+                      );
+                      cart.clear();
+                    },
                     style: ButtonStyle(
-                      foregroundColor: MaterialStateProperty.all(Colors.purple),
+                      foregroundColor: MaterialStateProperty.all(
+                        Colors.purple,
+                      ),
                     ),
                     child: const Text("Order Now"),
                   ),
@@ -68,7 +77,7 @@ class CartScreen extends StatelessWidget {
                 cart.items.keys.toList()[i],
                 cart.items.values.toList()[i].price,
                 cart.items.values.toList()[i].quantity,
-                cart.items.values.toList()[i].title ,
+                cart.items.values.toList()[i].title,
               ),
             ),
           ),
