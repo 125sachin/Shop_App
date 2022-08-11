@@ -26,7 +26,7 @@ class Badge extends StatelessWidget {
             // color: Theme.of(context).accentColor,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              color: color != null
+              color: (color != null)
                   ? color
                   : Theme.of(context).colorScheme.secondary,
             ),
@@ -43,7 +43,7 @@ class Badge extends StatelessWidget {
             ),
             // child: IconButton(onPressed: (){}, icon: Icon(Icons.abc)),
           ),
-        )
+        ),
       ],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shop_app/providers/cart.dart';
+
 class CartItem extends StatelessWidget {
   final String id;
   final String productId;
@@ -8,7 +9,8 @@ class CartItem extends StatelessWidget {
   final int quantity;
   final String title;
 
-  const CartItem(this.id,this.productId, this.price, this.quantity, this.title, {Key? key})
+  const CartItem(this.id, this.productId, this.price, this.quantity, this.title,
+      {Key? key})
       : super(key: key);
 
   @override
@@ -17,7 +19,7 @@ class CartItem extends StatelessWidget {
       key: ValueKey(id),
       // onDismissed: ,
       direction: DismissDirection.endToStart,
-      onDismissed: (direction){
+      onDismissed: (direction) {
         Provider.of<Cart>(context, listen: false).removeItem(productId);
       },
       background: Container(
@@ -50,5 +52,4 @@ class CartItem extends StatelessWidget {
       ),
     );
   }
-
 }
