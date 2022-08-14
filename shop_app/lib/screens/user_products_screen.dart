@@ -9,6 +9,10 @@ class UserProductsScreen extends StatelessWidget {
   static const routeName = '/user-products';
   const UserProductsScreen({Key? key}) : super(key: key);
 
+  Future<void> _refreshProducts(BuildContext context) async {
+    await Provider.of<Products>(context, listen: false).fetchAndSetProducts();
+  }
+
   @override
   Widget build(BuildContext context) {
     final productsData = Provider.of<Products>(context);
@@ -18,31 +22,36 @@ class UserProductsScreen extends StatelessWidget {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.of(context).pushNamed(EditProductScreen.routeName, arguments: 'newProduct');
+              Navigator.of(context).pushNamed(EditProductScreen.routeName,
+                  arguments: 'newProduct');
             },
             icon: const Icon(
               Icons.add,
             ),
-          )
+          ),
         ],
       ),
       drawer: const AppDrawer(),
-      body: Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListView.builder(
-          itemCount: productsData.items.length,
-          itemBuilder: (_, int index) {
-            return Column(
-              children: [
-                UserProdctItem(
-                  productsData.items[index].id,
-                  productsData.items[index].title,
-                  productsData.items[index].imageUrl,
-                ),
-                const Divider(),
-              ],
-            );
-          },
+      body: RefreshIndicator(
+        // backgroundColor: Colors.black,
+        onRefresh: () => _refreshProducts(context),
+        child: Padding(
+          padding: const EdgeInsets.all(8),
+          child: ListView.builder(
+            itemCount: productsData.items.length,
+            itemBuilder: (_, int index) {
+              return Column(
+                children: [
+                  UserProdctItem(
+                    productsData.items[index].id,
+                    productsData.items[index].title,
+                    productsData.items[index].imageUrl,
+                  ),
+                  const Divider(),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
